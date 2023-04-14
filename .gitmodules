@@ -1,0 +1,4 @@
+[submodule "rwkv.cpp-custom"]
+	path = rwkv.cpp
+	url = https://github.com/iacore/rwkv.cpp
+	branch = custom
