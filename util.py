@@ -1,14 +1,15 @@
 import numpy as np
 
-def tensor_to_bytes(tensor):
-    import torch
-    assert type(tensor) is torch.Tensor
-    return bytes(np.array(tensor))
 
-def bytes_to_tensor(b):
-    import torch
+def array_to_bytes(tensor):
+    assert type(tensor) is np.ndarray
+    return bytes(tensor)
+
+
+def bytes_to_array(b):
     assert type(b) is bytes
-    return torch.frombuffer(b, dtype=torch.float32)
+    return np.frombuffer(b, dtype=np.float32)
+
 
 def sample_logits(logits, temperature=1.0, top_p=0.85):
     e_x = np.exp(logits - np.max(logits))
