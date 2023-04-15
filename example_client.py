@@ -33,11 +33,7 @@ tokenizer = tokenizers.Tokenizer.from_file(str(tokenizer_path))
 
 # ======================================== Script settings ========================================
 
-prompt: str = """# rwkv.cpp
-
-This is a port of [BlinkDL/RWKV-LM](https://github.com/BlinkDL/RWKV-LM) to [ggerganov/ggml](https://github.com/ggerganov/ggml).
-
-Besides usual **FP32**, it supports **FP16** and **quantized INT4** inference on CPU. This project is **CPU only**."""
+prompt: str = """In a shocking finding, scientist discovered a herd of dragons living in a remote, previously unexplored valley, in Tibet. Even more surprising to the researchers was the fact that the dragons spoke perfect Chinese.\n"""
 
 # Token count per single completion.
 tokens_per_generation: int = 100
