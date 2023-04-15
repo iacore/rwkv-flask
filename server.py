@@ -2,12 +2,13 @@
 
 assert __name__ == "__main__", "This is a top-level script"
 
-import sys, argparse
+import os, sys, argparse
 from multiprocessing import Lock
 
 from tqdm import tqdm
 import numpy as np
 from flask import Flask, request
+from flask_cors import CORS
 import umsgpack
 
 from util import array_to_bytes, bytes_to_array
@@ -43,13 +44,13 @@ model = RWKVModel(library, args.model_path)
 # ======================================== Server settings ========================================
 
 api = Flask(__name__)
-
+CORS(api)
 
 @api.get("/info")
 def get_model_info():
     return umsgpack.dumps(
         {
-            "model_path": args.model_path,
+            "model_path": os.path.abspath(args.model_path),
             "vocab_count": model._logits_buffer_element_count,
             # seem to be n_layer * n_embed * 4
             "state_count": model._state_buffer_element_count,
