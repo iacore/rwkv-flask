@@ -57,14 +57,14 @@ state = None
 logits, state = infer_remote(prompt_tokens, state)
 
 # generation start
-print(f"\n--- Generation {GENERATION} n_token={tokens_per_generation} ---\n")
+print(f"\n--- Generation n_token={tokens_per_generation} ---\n")
 print(prompt, end="[")
 start = time.time()
 
 for i in range(tokens_per_generation):
     token = sample_logits(logits, temperature, top_p)
 
-    print(tokenizer.decode([token]), end="", flash=True)
+    print(tokenizer.decode([token]), end="", flush=True)
 
     logits, state = infer_remote([token], state)
 
