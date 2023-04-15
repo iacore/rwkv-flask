@@ -13,10 +13,13 @@ pdm run python server.py ../models/RWKV-4-Raven-3B-v9-Eng99\%-Other1\%-20230411-
 pdm run python example_client.py
 ```
 
-Tip: please use a msgpack impl. that has support for raw bytes.
+If you don't want to use pdm, install the dependencies in [pyproject.toml](pyproject.toml) with `pip`.
 
-For Python: https://pypi.org/project/u-msgpack-python/  
-For Javascript (Deno/Node): https://esm.sh/@msgpack/msgpack@2.8.0
+> **Note**
+> please use a msgpack impl. that has support for raw bytes.
+>
+> For Python: https://pypi.org/project/u-msgpack-python/  
+> For Javascript (Deno/Node): https://esm.sh/@msgpack/msgpack@2.8.0
 
 ## TODO
 
