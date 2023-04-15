@@ -25,7 +25,14 @@ parser.add_argument('--host', type=str, help='flask host')
 parser.add_argument('--port', type=int, help='flask port')
 args = parser.parse_args()
 
-library = load_rwkv_shared_library()
+try:
+  library = load_rwkv_shared_library()
+except OSError as e:
+  print(e)
+  print()
+  print("no rwkv shared library")
+  print("Please run `make` inside directory `rwkv.cpp/` to create the shared library")
+  exit(1)
 print(f'System info: {library.rwkv_get_system_info_string()}')
 
 print('Loading RWKV model')
