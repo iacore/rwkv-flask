@@ -3,6 +3,7 @@
 assert __name__ == "__main__", "This is a top-level script"
 
 import sys, argparse
+from multiprocessing import Lock
 
 from tqdm import tqdm
 import numpy as np
@@ -57,6 +58,7 @@ def get_model_info():
 
 
 logits_cache = None
+infer_lock = Lock() # lock for global variables
 
 
 @api.post("/infer")
@@ -73,13 +75,15 @@ def infer():
     if state is not None:
         state = bytes_to_array(data["state"])
 
-    for token in tqdm(tokens):
-        logits_cache, state = model.eval(token, state, state, logits_cache)
+    with infer_lock:
+        for token in tqdm(tokens):
+            logits_cache, state = model.eval(token, state, state, logits_cache)
+        logits = array_to_bytes(logits_cache)
 
     return umsgpack.dumps(
         {
             "state": array_to_bytes(state),
-            "logits": array_to_bytes(logits_cache),
+            "logits": logits,
         }
     )
 
