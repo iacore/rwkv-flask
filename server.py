@@ -1,22 +1,22 @@
 # Generates completions from RWKV model based on a prompt.
 
-assert __name__ == "__main__", "This is a top-level script"
-
-import os, sys, argparse
-from multiprocessing import Lock
-
+import argparse
+import sys
+import os
+from rwkv.cpp_shared_library import load_rwkv_shared_library
+from rwkv.cpp_model import RWKVModel
+from util import array_to_bytes, bytes_to_array, hash_file
+from flask_cors import CORS
+from flask import Flask, request
 from tqdm import tqdm
 import numpy as np
-from flask import Flask, request
-from flask_cors import CORS
 import umsgpack
+from multiprocessing import Lock
+assert __name__ == "__main__", "This is a top-level script"
 
-from util import array_to_bytes, bytes_to_array
 
 sys.path.insert(0, "rwkv.cpp")
 
-from rwkv.cpp_model import RWKVModel
-from rwkv.cpp_shared_library import load_rwkv_shared_library
 
 # =================================================================================================
 
@@ -46,10 +46,12 @@ model = RWKVModel(library, args.model_path)
 api = Flask(__name__)
 CORS(api)
 
+
 @api.get("/info")
 def get_model_info():
     return umsgpack.dumps(
         {
+            "model_hash": hash_file(args.model_path).hex(),
             "model_path": os.path.abspath(args.model_path),
             "vocab_count": model._logits_buffer_element_count,
             # seem to be n_layer * n_embed * 4
@@ -59,7 +61,7 @@ def get_model_info():
 
 
 logits_cache = None
-infer_lock = Lock() # lock for global variables
+infer_lock = Lock()  # lock for global variables
 
 
 @api.post("/infer")
@@ -69,7 +71,12 @@ def infer():
     print(data.keys())
 
     tokens = data["tokens"]
-    assert type(tokens) is list
+    if type(tokens) is list:
+        pass
+    elif type(tokens) is bytes:
+        tokens = np.frombuffer(tokens, dtype=np.uint32)
+    else:
+        assert False, f"Tokens is of unrecognized type: {type(tokens)}"
     assert len(tokens) > 0, "tokens must be non-empty"
 
     state = data.get("state")

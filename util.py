@@ -1,6 +1,18 @@
 import numpy as np
 
 
+def hash_file(path, str) -> bytes:
+    from xxhash import xxh3_128
+    with open(path, "rb") as f_model:
+        model_hash_obj = xxh3_128()
+        while True:
+            some_data = f_model.read(4096)
+            if len(some_data) == 0:
+                break
+            model_hash_obj.update(some_data)
+        return model_hash_obj.digest()
+
+
 def array_to_bytes(tensor):
     assert type(tensor) is np.ndarray
     return bytes(tensor)
