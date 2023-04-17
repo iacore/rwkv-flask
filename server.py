@@ -41,6 +41,7 @@ print(f"System info: {library.rwkv_get_system_info_string()}")
 
 print("Loading RWKV model")
 model = RWKVModel(library, args.model_path)
+model_hash = hash_file(args.model_path).hex()
 
 # ======================================== Server settings ========================================
 
@@ -52,7 +53,7 @@ CORS(api)
 def get_model_info():
     return umsgpack.dumps(
         {
-            "model_hash": hash_file(args.model_path).hex(),
+            "model_hash": model_hash,
             "model_path": os.path.abspath(args.model_path),
             "vocab_count": model._logits_buffer_element_count,
             # seem to be n_layer * n_embed * 4

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def hash_file(path, str) -> bytes:
+def hash_file(path: str) -> bytes:
     from xxhash import xxh3_128
     with open(path, "rb") as f_model:
         model_hash_obj = xxh3_128()
