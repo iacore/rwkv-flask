@@ -3,8 +3,7 @@
 import argparse
 import sys
 import os
-from rwkv.cpp_shared_library import load_rwkv_shared_library
-from rwkv.cpp_model import RWKVModel
+
 from util import array_to_bytes, bytes_to_array, hash_file
 from flask_cors import CORS
 from flask import Flask, request
@@ -12,11 +11,13 @@ from tqdm import tqdm
 import numpy as np
 import umsgpack
 from multiprocessing import Lock
-assert __name__ == "__main__", "This is a top-level script"
-
 
 sys.path.insert(0, "rwkv.cpp")
 
+from rwkv.cpp_shared_library import load_rwkv_shared_library
+from rwkv.cpp_model import RWKVModel
+
+assert __name__ == "__main__", "This is a top-level script"
 
 # =================================================================================================
 
