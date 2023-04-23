@@ -1,6 +1,6 @@
 # rwkv-flask
 
-Stateless HTTP server for rwkv.cpp. Tokenizer not included.
+Stateless HTTP server for rwkv.cpp. Tokenizer not included. Request cache not included.
 
 ```shell
 ## build librwkv.so
@@ -34,6 +34,3 @@ If you don't want to use pdm, install the dependencies in [pyproject.toml](pypro
 > For Python: https://pypi.org/project/u-msgpack-python/  
 > For Javascript (Deno/Node): https://esm.sh/@msgpack/msgpack@2.8.0
 
-## TODO
-
-- cache requests
