@@ -14,8 +14,8 @@ from multiprocessing import Lock
 
 sys.path.insert(0, "rwkv.cpp")
 
-from rwkv.cpp_shared_library import load_rwkv_shared_library
-from rwkv.cpp_model import RWKVModel
+from rwkv_cpp.rwkv_cpp_shared_library import load_rwkv_shared_library
+from rwkv_cpp.rwkv_cpp_model import RWKVModel
 
 assert __name__ == "__main__", "This is a top-level script"
 

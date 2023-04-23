@@ -3,6 +3,19 @@
 Stateless HTTP server for rwkv.cpp. Tokenizer not included.
 
 ```shell
+## build librwkv.so
+git submodule init
+git submodule update --depth 1 --recursive
+pushd rwkv.cpp
+git submodule init
+git submodule update --depth 1 --recursive
+rm -r build/ ; cmake -B build BUILD_SHARED_LIBS=ON && cmake --build build
+cp build/librwkv.so ./
+popd
+
+
+## Python
+
 # install deps
 pdm install -d
 
